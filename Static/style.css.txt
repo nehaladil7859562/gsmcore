@@ -1,0 +1,42 @@
+/* ===== Body Style ===== */
+body {
+    background-color: #f0f0f0;  /* page ka halka grey background */
+    font-family: Arial, sans-serif; /* simple readable font */
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Heading Style ===== */
+h1 {
+    color: #ff0000; /* heading ka red color */
+    text-align: center; /* center align */
+    margin-top: 20px;
+}
+
+/* ===== Links and Buttons ===== */
+a {
+    text-decoration: none;  /* underline remove */
+    color: #007bff;  /* blue color for links */
+}
+
+button {
+    background-color: #28a745; /* green button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px; /* thodi rounding */
+}
+
+button:hover {
+    background-color: #218838; /* hover effect */
+}
+
+/* ===== Forms / Input Fields ===== */
+input[type="text"], input[type="password"] {
+    padding: 8px;
+    width: 200px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
