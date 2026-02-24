@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
+import os
 
 app = Flask(__name__)
+
+# Secret Key for session management (from Environment Variable)
+app.secret_key = os.environ.get("SECRET_KEY")
 
 @app.route("/")
 def home():
@@ -22,4 +26,6 @@ def tools():
     return render_template("tools.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # Use Render's PORT environment variable, fallback to 10000 if not set
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
