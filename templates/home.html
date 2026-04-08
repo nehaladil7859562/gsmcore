@@ -6,29 +6,77 @@
   <style>
     body {
       display: flex;
-      justify-content: center; /* horizontal center */
-      align-items: center;     /* vertical center */
-      height: 100vh;           /* full screen height */
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       margin: 0;
-      background-color: #f0f0f0; /* optional background */
+      background: linear-gradient(135deg, #eef2f3, #dfe9f3);
       font-family: Arial, sans-serif;
-      flex-direction: column;  /* stack heading + tagline */
+      flex-direction: column;
       text-align: center;
     }
+
+    /* 🔥 Navbar */
+    .navbar {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-left: 10px;
+      transition: 0.3s;
+    }
+
+    /* Login button */
+    .login {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .login:hover {
+      background-color: #0056b3;
+    }
+
+    /* Register button */
+    .register {
+      background-color: transparent;
+      color: #007bff;
+      border: 1px solid #007bff;
+    }
+
+    .register:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
     h1 {
-      font-size: 4em;  /* bara heading */
+      font-size: 4em;
       color: #222;
       margin: 0;
     }
+
     p {
-      font-size: 1.5em; /* chhoti tagline */
+      font-size: 1.5em;
       color: #555;
       margin-top: 10px;
     }
   </style>
 </head>
 <body>
+
+  <!-- 🔥 Navbar -->
+  <div class="navbar">
+    <a href="/login" class="login">Login</a>
+    <a href="/register" class="register">Register</a>
+  </div>
+
   <h1>WELCOME TO GsmCore</h1>
   <p>Powering your device freedom ⚡📲</p>
+
 </body>
 </html>
