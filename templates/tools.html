@@ -1,16 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Tools - GSMCORE</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <title>GsmCore Tools</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    /* 🔴 Logout button */
+    .logout {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .logout a {
+      text-decoration: none;
+      background-color: red;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .logout a:hover {
+      background-color: darkred;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #222;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #555;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>GSM Tools</h1>
-    <ul>
-        <li>Tool 1</li>
-        <li>Tool 2</li>
-        <li>Tool 3</li>
-    </ul>
+
+  <!-- 🔴 Logout Button -->
+  <div class="logout">
+    <a href="/logout">Logout</a>
+  </div>
+
+  <!-- 🔧 Tools Content -->
+  <div>
+    <h1>Welcome to Tools Page</h1>
+    <p>You are successfully logged in 🎉</p>
+  </div>
+
 </body>
 </html>
