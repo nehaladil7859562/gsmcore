@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 
 app = Flask(__name__)
 
-# Secret Key for session management (from Environment Variable)
-app.secret_key = os.environ.get("SECRET_KEY")
+# Secret Key for session
+app.secret_key = os.environ.get("SECRET_KEY", "mysecretkey")
 
-# Temporary user storage (basic version)
+# Temporary user storage
 users = {}
 
 @app.route("/")
@@ -29,6 +29,7 @@ def login():
         password = request.form["password"]
 
         if username in users and users[username] == password:
+            session["user"] = username   # 🔐 login session set
             return redirect(url_for("tools"))
         else:
             return "Invalid username or password"
@@ -37,9 +38,15 @@ def login():
 
 @app.route("/tools")
 def tools():
+    if "user" not in session:   # 🔒 protect page
+        return redirect(url_for("login"))
     return render_template("tools.html")
 
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("home"))
+
 if __name__ == "__main__":
-    # Use Render's PORT environment variable, fallback to 10000 if not set
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
