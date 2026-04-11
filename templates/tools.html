@@ -3,22 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>GsmCore Dashboard</title>
+
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #eef2f3, #dfe9f3);
       min-height: 100vh;
+
+      /* 🔥 Gradient + Pattern Background */
+      background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(0,123,255,0.1) 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, rgba(0,123,255,0.1) 2px, transparent 2px);
+      background-size: 60px 60px;
     }
 
-    /* Navbar */
+    /* 🔵 Navbar */
     .navbar {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 15px 30px;
       background-color: #007bff;
       color: white;
+    }
+
+    .navbar .left img {
+      width: 40px;
+    }
+
+    .navbar .right {
+      display: flex;
+      align-items: center;
     }
 
     .navbar span {
@@ -39,81 +55,106 @@
       background-color: darkred;
     }
 
-    /* Dashboard Container */
+    /* 🖼️ Logo Center */
+    .logo {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .logo img {
+      width: 200px;
+    }
+
+    /* ✨ Welcome Text */
+    .welcome {
+      text-align: center;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    /* 📦 Dashboard Grid */
     .dashboard {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       padding: 40px;
-      max-width: 1200px;
+      max-width: 1100px;
       margin: auto;
     }
 
-    /* Card Style */
+    /* 🧊 Cards */
     .card {
       background: white;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
       text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 15px 30px rgba(0,0,0,0.15);
+      transform: translateY(-6px);
+      box-shadow: 0px 15px 30px rgba(0,0,0,0.2);
     }
 
     .card h2 {
-      margin: 10px 0;
       color: #007bff;
+      margin-bottom: 10px;
     }
 
     .card p {
       color: #555;
     }
-
-    /* Welcome Message */
-    .welcome {
-      text-align: center;
-      margin-top: 40px;
-      color: #222;
-    }
-
   </style>
 </head>
+
 <body>
 
-  <!-- Navbar -->
+  <!-- 🔵 Navbar -->
   <div class="navbar">
-    <span>👋 {{ user }}</span>
-    <a href="/logout">Logout</a>
+    <div class="left">
+      <img src="{{ url_for('static', filename='image.png') }}" alt="logo">
+    </div>
+
+    <div class="right">
+      <span>👋 {{ user }}</span>
+      <a href="/logout">Logout</a>
+    </div>
   </div>
 
-  <!-- Welcome -->
+  <!-- 🖼️ Center Logo -->
+  <div class="logo">
+    <img src="{{ url_for('static', filename='image.png') }}" alt="GsmCore Logo">
+  </div>
+
+  <!-- ✨ Welcome -->
   <div class="welcome">
-    <h1>WELCOME TO GsmCore</h1>
-    <p>Your dashboard is ready 🚀</p>
+    <h2>Your dashboard is ready 🚀</h2>
   </div>
 
-  <!-- Dashboard Cards -->
+  <!-- 📦 Dashboard Cards -->
   <div class="dashboard">
+
     <div class="card">
-      <h2>Tool 1</h2>
-      <p>Some description about Tool 1</p>
+      <h2>🔓 Unlock Tool</h2>
+      <p>Unlock your device safely</p>
     </div>
+
     <div class="card">
-      <h2>Tool 2</h2>
-      <p>Some description about Tool 2</p>
+      <h2>📱 IMEI Tool</h2>
+      <p>Check device information</p>
     </div>
+
     <div class="card">
-      <h2>Tool 3</h2>
-      <p>Some description about Tool 3</p>
+      <h2>⚙️ GSM Tool</h2>
+      <p>Advanced mobile utilities</p>
     </div>
+
     <div class="card">
-      <h2>Tool 4</h2>
-      <p>Some description about Tool 4</p>
+      <h2>🧠 Smart Tool</h2>
+      <p>Automation & smart features</p>
     </div>
+
   </div>
 
 </body>
