@@ -6,14 +6,14 @@
 
   <style>
     body {
-      margin: 0;
-      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      height: 100vh;
+      margin: 0;
       background: linear-gradient(135deg, #eef2f3, #dfe9f3);
       font-family: Arial, sans-serif;
+      flex-direction: column;
       text-align: center;
     }
 
@@ -47,29 +47,26 @@
       color: white;
     }
 
-    /* ✨ Welcome text */
-    h1 {
-      font-size: 40px;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
     /* 🔥 Logo */
     .logo img {
-      width: 350px;
-      max-width: 90%;
+      width: 300px;
+      margin: 10px 0;
     }
 
-    /* Tagline */
+    h1 {
+      font-size: 40px;
+      color: #222;
+      margin: 0;
+    }
+
     p {
-      font-size: 18px;
+      font-size: 20px;
       color: #555;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
   </style>
 </head>
-
 <body>
 
   <!-- 🔥 Navbar -->
@@ -78,15 +75,14 @@
     <a href="/register" class="register">Register</a>
   </div>
 
-  <!-- ✨ Welcome -->
+  <!-- ✨ OLD STYLE (but improved) -->
   <h1>WELCOME TO</h1>
 
-  <!-- 🔥 YAHAN LOGO (GsmCore text ki jagah) -->
+  <!-- 🔥 Logo instead of GsmCore text -->
   <div class="logo">
     <img src="{{ url_for('static', filename='image.png') }}" alt="GsmCore Logo">
   </div>
 
-  <!-- Tagline -->
   <p>Powering your device freedom ⚡📱</p>
 
 </body>
