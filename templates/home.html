@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>GsmCore</title>
-
   <style>
     body {
       display: flex;
@@ -30,16 +29,24 @@
       border-radius: 6px;
       font-size: 14px;
       margin-left: 10px;
+      transition: 0.3s;
     }
 
+    /* Login button */
     .login {
       background-color: #007bff;
       color: white;
     }
 
+    .login:hover {
+      background-color: #0056b3;
+    }
+
+    /* Register button */
     .register {
-      border: 1px solid #007bff;
+      background-color: transparent;
       color: #007bff;
+      border: 1px solid #007bff;
     }
 
     .register:hover {
@@ -47,24 +54,17 @@
       color: white;
     }
 
-    /* 🔥 Logo */
-    .logo img {
-      width: 300px;
-      margin: 10px 0;
-    }
-
     h1 {
-      font-size: 40px;
+      font-size: 4em;
       color: #222;
       margin: 0;
     }
 
     p {
-      font-size: 20px;
+      font-size: 1.5em;
       color: #555;
       margin-top: 10px;
     }
-
   </style>
 </head>
 <body>
@@ -75,15 +75,8 @@
     <a href="/register" class="register">Register</a>
   </div>
 
-  <!-- ✨ OLD STYLE (but improved) -->
-  <h1>WELCOME TO</h1>
-
-  <!-- 🔥 Logo instead of GsmCore text -->
-  <div class="logo">
-    <img src="{{ url_for('static', filename='image.png') }}" alt="GsmCore Logo">
-  </div>
-
-  <p>Powering your device freedom ⚡📱</p>
+  <h1>WELCOME TO GsmCore</h1>
+  <p>Powering your device freedom ⚡📲</p>
 
 </body>
 </html>
