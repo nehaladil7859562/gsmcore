@@ -1,69 +1,37 @@
-from flask import Flask, render_template, request, redirect, session
-from database import create_table, add_user, check_user
+import os
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = "gsmcore_secret_key"
 
-# 🧠 Create database table on startup
-create_table()
-
-
-# ---------------- HOME ----------------
+# Home Page
 @app.route("/")
 def home():
     return render_template("home.html")
 
-
-# ---------------- REGISTER ----------------
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        try:
-            add_user(username, password)
-            return redirect("/login")
-        except:
-            return "User already exists!"
-
-    return render_template("register.html")
-
-
-# ---------------- LOGIN ----------------
+# Login Page
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-        user = check_user(username, password)
-
-        if user:
-            session["user"] = username
-            return redirect("/tools")   # dashboard
+        # Simple check (you can upgrade later)
+        if username == "admin" and password == "1234":
+            return redirect(url_for("home"))
         else:
-            return "Invalid username or password"
+            return "Invalid Credentials ❌"
 
     return render_template("login.html")
 
+# Register Page
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        return redirect(url_for("login"))
 
-# ---------------- TOOLS (DASHBOARD) ----------------
-@app.route("/tools")
-def tools():
-    if "user" in session:
-        return render_template("tools.html", user=session["user"])
-    else:
-        return redirect("/login")
+    return render_template("register.html")
 
-
-# ---------------- LOGOUT ----------------
-@app.route("/logout")
-def logout():
-    session.pop("user", None)
-    return redirect("/")
-
-
-# ---------------- RUN APP ----------------
+# IMPORTANT: Railway Deployment Fix
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
