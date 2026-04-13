@@ -5,25 +5,28 @@ from database import create_db
 
 app = Flask(__name__)
 
-# Create database automatically
 create_db()
 
-# Home Page
 @app.route("/")
 def home():
     return render_template("home.html")
 
-# Register Page
+# REGISTER
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+        phone = request.form.get("phone")
+        location = request.form.get("location")
 
         conn = sqlite3.connect("users.db")
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        cursor.execute(
+            "INSERT INTO users (username, password, phone, location) VALUES (?, ?, ?, ?)",
+            (username, password, phone, location)
+        )
 
         conn.commit()
         conn.close()
@@ -32,7 +35,7 @@ def register():
 
     return render_template("register.html")
 
-# Login Page
+# LOGIN
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -50,11 +53,11 @@ def login():
         if user:
             return redirect(url_for("home"))
         else:
-            return "Invalid Credentials ❌"
+            return render_template("login.html", error="Invalid username or password ❌")
 
     return render_template("login.html")
 
-# Railway Deployment Fix
+# RUN
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
