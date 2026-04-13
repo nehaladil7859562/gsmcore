@@ -9,6 +9,7 @@ def create_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT,
         password TEXT,
+        email TEXT,
         phone TEXT,
         location TEXT
     )

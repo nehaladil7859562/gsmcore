@@ -17,6 +17,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
+        email = request.form.get("email")
         phone = request.form.get("phone")
         location = request.form.get("location")
 
@@ -24,8 +25,8 @@ def register():
         cursor = conn.cursor()
 
         cursor.execute(
-            "INSERT INTO users (username, password, phone, location) VALUES (?, ?, ?, ?)",
-            (username, password, phone, location)
+            "INSERT INTO users (username, password, email, phone, location) VALUES (?, ?, ?, ?, ?)",
+            (username, password, email, phone, location)
         )
 
         conn.commit()
