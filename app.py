@@ -1,15 +1,17 @@
 import os
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from database import create_db
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"
 
 create_db()
 
+# HOME
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return redirect(url_for("login"))
 
 # REGISTER
 @app.route("/register", methods=["GET", "POST"])
@@ -52,11 +54,26 @@ def login():
         conn.close()
 
         if user:
-            return redirect(url_for("home"))
+            session["user"] = username
+            return redirect(url_for("dashboard"))
         else:
             return render_template("login.html", error="Invalid username or password ❌")
 
     return render_template("login.html")
+
+# DASHBOARD
+@app.route("/dashboard")
+def dashboard():
+    if "user" in session:
+        return render_template("dashboard.html", username=session["user"])
+    else:
+        return redirect(url_for("login"))
+
+# LOGOUT
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("login"))
 
 # RUN
 if __name__ == "__main__":
