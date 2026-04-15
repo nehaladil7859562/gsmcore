@@ -5,26 +5,35 @@
 
   <style>
     body {
+      margin: 0;
       font-family: Arial;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       background: #f2f2f2;
     }
 
     .box {
+      width: 340px;
       background: white;
-      padding: 20px;
-      width: 300px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px #ccc;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: left;
+      margin-bottom: 15px;
     }
 
     input {
       width: 100%;
       padding: 10px;
       margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
     }
 
     .password-box {
@@ -45,13 +54,20 @@
       background: black;
       color: white;
       border: none;
+      border-radius: 6px;
       margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #222;
     }
 
     a {
       display: block;
-      margin-top: 10px;
       text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -59,6 +75,7 @@
 <body>
 
 <div class="box">
+
   <h2>Login</h2>
 
   <form method="POST">
@@ -74,6 +91,7 @@
   </form>
 
   <a href="/register">Don't have an account? Register</a>
+
 </div>
 
 <script>
