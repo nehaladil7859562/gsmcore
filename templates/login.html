@@ -1,90 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-form {
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  padding: 30px;
-  border-radius: 16px;
-  width: 320px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,0,0,0.4);
-}
-
-h2 { color: white; }
-
-input {
-  width: 90%;
-  padding: 12px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 8px;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: #22c55e;
-  border: none;
-  border-radius: 8px;
-  color: white;
-}
-
-.error {
-  color: #ff4d4d;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-p {
-  color: white;
-  margin-top: 15px;
-}
-
-a {
-  color: #22c55e;
-  text-decoration: none;
-}
-</style>
-
+    <title>Login</title>
 </head>
+<body style="text-align:center; margin-top:100px;">
 
-<body>
+<h2>Login</h2>
 
 <form method="POST">
 
-  <h2>Login</h2>
+    <input type="text" name="username" placeholder="Username" required><br><br>
 
-  {% if error %}
-  <div class="error">{{ error }}</div>
-  {% endif %}
+    <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+    <button type="button" onclick="toggleLoginPassword()">👁️</button>
 
-  <input type="text" name="username" placeholder="Username" required>
+    <br><br>
 
-  <input type="password" name="password" placeholder="Password" required>
-
-  <button type="submit">Login</button>
-
-  <!-- ALWAYS REGISTER LINK -->
-  <p>
-    Don’t have an account?
-    <a href="/register">Register</a>
-  </p>
-
+    <button type="submit">Login</button>
 </form>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<br>
+
+<p>
+Don't have an account?
+<a href="/register">Register</a>
+</p>
+
+<script>
+function toggleLoginPassword() {
+    var pass = document.getElementById("loginPassword");
+    if (pass.type === "password") {
+        pass.type = "text";
+    } else {
+        pass.type = "password";
+    }
+}
+</script>
 
 </body>
 </html>
