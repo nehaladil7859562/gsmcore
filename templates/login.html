@@ -1,77 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+<title>Login</title>
 
-  <style>
-  body {
-    margin: 0;
-    font-family: Arial;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  form {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 16px;
-    width: 320px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
-    text-align: center;
-  }
+form {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+}
 
-  h2 {
-    color: white;
-    margin-bottom: 20px;
-  }
+h2 { color: white; }
 
-  input {
-    width: 90%;
-    padding: 12px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 8px;
-    outline: none;
-  }
+input {
+  width: 90%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+}
 
-  button {
-    width: 100%;
-    padding: 12px;
-    background: #22c55e;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+button {
+  width: 100%;
+  padding: 12px;
+  background: #22c55e;
+  border: none;
+  border-radius: 8px;
+  color: white;
+}
 
-  button:hover {
-    background: #16a34a;
-  }
+.error {
+  color: #ff4d4d;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-  .error {
-    color: #ff4d4d;
-    margin-bottom: 10px;
-    font-weight: bold;
-    text-align: center;
-  }
+p {
+  color: white;
+  margin-top: 15px;
+}
 
-  p {
-    color: white;
-    margin-top: 15px;
-  }
+a {
+  color: #22c55e;
+  text-decoration: none;
+}
+</style>
 
-  a {
-    color: #22c55e;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  </style>
 </head>
 
 <body>
@@ -86,37 +74,17 @@
 
   <input type="text" name="username" placeholder="Username" required>
 
-  <div style="position: relative;">
-    <input type="password" id="password" name="password" placeholder="Password" required>
-    <span onclick="togglePassword()" style="
-      position:absolute;
-      right:15px;
-      top:50%;
-      transform:translateY(-50%);
-      cursor:pointer;
-    ">👁️</span>
-  </div>
+  <input type="password" name="password" placeholder="Password" required>
 
   <button type="submit">Login</button>
 
-  <!-- 👇 REGISTER LINK -->
+  <!-- ALWAYS REGISTER LINK -->
   <p>
-    Don’t have an account? 
+    Don’t have an account?
     <a href="/register">Register</a>
   </p>
 
 </form>
-
-<script>
-function togglePassword() {
-  var x = document.getElementById("password");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
-</script>
 
 </body>
 </html>

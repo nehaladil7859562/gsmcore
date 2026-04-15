@@ -8,7 +8,6 @@ app.secret_key = "supersecretkey"
 
 create_db()
 
-# HOME
 @app.route("/")
 def home():
     return redirect(url_for("login"))
@@ -26,10 +25,10 @@ def register():
         conn = sqlite3.connect("users.db")
         cursor = conn.cursor()
 
-        cursor.execute(
-            "INSERT INTO users (username, password, email, phone, location) VALUES (?, ?, ?, ?, ?)",
-            (username, password, email, phone, location)
-        )
+        cursor.execute("""
+        INSERT INTO users (username, password, email, phone, location)
+        VALUES (?, ?, ?, ?, ?)
+        """, (username, password, email, phone, location))
 
         conn.commit()
         conn.close()
@@ -41,6 +40,8 @@ def register():
 # LOGIN
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    error = None
+
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -48,26 +49,27 @@ def login():
         conn = sqlite3.connect("users.db")
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
-        user = cursor.fetchone()
+        cursor.execute("""
+        SELECT * FROM users WHERE username=? AND password=?
+        """, (username, password))
 
+        user = cursor.fetchone()
         conn.close()
 
         if user:
             session["user"] = username
             return redirect(url_for("dashboard"))
         else:
-            return render_template("login.html", error="Invalid username or password ❌")
+            error = "Invalid username or password ❌"
 
-    return render_template("login.html")
+    return render_template("login.html", error=error)
 
 # DASHBOARD
 @app.route("/dashboard")
 def dashboard():
     if "user" in session:
         return render_template("dashboard.html", username=session["user"])
-    else:
-        return redirect(url_for("login"))
+    return redirect(url_for("login"))
 
 # LOGOUT
 @app.route("/logout")
@@ -75,7 +77,6 @@ def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
 
-# RUN
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
