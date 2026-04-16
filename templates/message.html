@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            padding: 25px 40px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 280px;
+            color: white;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            animation: pop 0.25s ease;
+        }
+
+        .success {
+            background: #22c55e;
+        }
+
+        .error {
+            background: #ef4444;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        a:hover {
+            opacity: 1;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 🔥 MESSAGE BOX -->
+    <div class="card {{ type }}">
+        <p>{{ msg }}</p>
+
+        <!-- 🔁 navigation -->
+        <a href="/login">Go to Login</a>
+    </div>
+
+</body>
+</html>

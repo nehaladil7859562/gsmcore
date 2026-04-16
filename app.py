@@ -6,18 +6,18 @@ app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
 # ======================
-# 🔐 USERS DATABASE (temporary)
-# =======================
+# 🔐 USERS DATABASE
+# ======================
 users = {}
 
 # ======================
-# 📧 EMAIL CONFIG (IMPORTANT)
+# 📧 EMAIL CONFIG
 # ======================
 EMAIL = "nehaladil7859562@gmail.com"
-PASSWORD = "qwimncypadqpnjlb"   # <-- yahan Google App Password paste karo
+PASSWORD = "qwimncypadqpnjlb"
 
 # ======================
-# 📩 SEND OTP FUNCTION
+# 📩 SEND OTP
 # ======================
 def send_otp(to_email, otp):
     try:
@@ -31,6 +31,7 @@ def send_otp(to_email, otp):
         server.quit()
 
         print("OTP sent successfully")
+
     except Exception as e:
         print("Error sending email:", e)
 
@@ -52,9 +53,16 @@ def login():
 
         if username in users and users[username]["password"] == password:
             session["user"] = username
+
+            # ✅ FIXED: direct dashboard (no message bug)
             return redirect(url_for("dashboard"))
+
         else:
-            return "Invalid username or password"
+            return render_template(
+                "message.html",
+                msg="❌ Invalid username or password",
+                type="error"
+            )
 
     return render_template("login.html")
 
@@ -71,10 +79,13 @@ def register():
         email = request.form["email"]
 
         if username in users:
-            return "User already exists"
+            return render_template(
+                "message.html",
+                msg="❌ User already exists",
+                type="error"
+            )
 
         otp = str(random.randint(1000, 9999))
-
         send_otp(email, otp)
 
         session["temp_user"] = {
@@ -113,9 +124,18 @@ def verify_otp():
             }
 
             session.pop("temp_user", None)
-            return redirect(url_for("login"))
+
+            return render_template(
+                "message.html",
+                msg="✅ OTP Verified Successfully",
+                type="success"
+            )
         else:
-            return "Invalid OTP"
+            return render_template(
+                "message.html",
+                msg="❌ Invalid OTP",
+                type="error"
+            )
 
     return render_template("verify.html")
 
