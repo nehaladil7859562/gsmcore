@@ -1,16 +1,49 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import random
+import smtplib
 
 app = Flask(__name__)
-app.secret_key = "gsmcore_secret_key"
+app.secret_key = "supersecretkey"
 
+# ======================
+# 🔐 USERS DATABASE (temporary)
+# =======================
 users = {}
 
+# ======================
+# 📧 EMAIL CONFIG (IMPORTANT)
+# ======================
+EMAIL = "nehaladil7859562@gmail.com"
+PASSWORD = "qwimncypadqpnjlb"   # <-- yahan Google App Password paste karo
+
+# ======================
+# 📩 SEND OTP FUNCTION
+# ======================
+def send_otp(to_email, otp):
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(EMAIL, PASSWORD)
+
+        message = f"Subject: OTP Verification\n\nYour OTP is: {otp}"
+
+        server.sendmail(EMAIL, to_email, message)
+        server.quit()
+
+        print("OTP sent successfully")
+    except Exception as e:
+        print("Error sending email:", e)
+
+# ======================
+# 🏠 HOME
+# ======================
 @app.route("/")
 def home():
     return redirect(url_for("login"))
 
-# LOGIN
+# ======================
+# 🔑 LOGIN
+# ======================
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -25,8 +58,9 @@ def login():
 
     return render_template("login.html")
 
-
-# REGISTER STEP 1
+# ======================
+# 📝 REGISTER
+# ======================
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -34,20 +68,21 @@ def register():
         password = request.form["password"]
         phone = request.form["phone"]
         location = request.form["location"]
+        email = request.form["email"]
 
         if username in users:
             return "User already exists"
 
-        # OTP generate
         otp = str(random.randint(1000, 9999))
-        print("OTP:", otp)  # 👈 console mein show hoga
 
-        # temp data save
+        send_otp(email, otp)
+
         session["temp_user"] = {
             "username": username,
             "password": password,
             "phone": phone,
             "location": location,
+            "email": email,
             "otp": otp
         }
 
@@ -55,8 +90,9 @@ def register():
 
     return render_template("register.html")
 
-
-# OTP VERIFY
+# ======================
+# 🔐 VERIFY OTP
+# ======================
 @app.route("/verify", methods=["GET", "POST"])
 def verify_otp():
     if "temp_user" not in session:
@@ -72,7 +108,8 @@ def verify_otp():
             users[data["username"]] = {
                 "password": data["password"],
                 "phone": data["phone"],
-                "location": data["location"]
+                "location": data["location"],
+                "email": data["email"]
             }
 
             session.pop("temp_user", None)
@@ -82,8 +119,9 @@ def verify_otp():
 
     return render_template("verify.html")
 
-
-# DASHBOARD
+# ======================
+# 📊 DASHBOARD
+# ======================
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
@@ -94,13 +132,16 @@ def dashboard():
 
     return render_template("dashboard.html", user=user, data=data)
 
-
-# LOGOUT
+# ======================
+# 🚪 LOGOUT
+# ======================
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
 
-
+# ======================
+# 🚀 RUN APP
+# ======================
 if __name__ == "__main__":
     app.run(debug=True)

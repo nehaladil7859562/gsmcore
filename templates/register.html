@@ -1,104 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Register</title>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f2f2f2;
-    }
+        .box {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            width: 320px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
 
-    .box {
-      width: 340px;
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
+        h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
 
-    h2 {
-      margin-bottom: 15px;
-    }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 6px;
+            outline: none;
+        }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #22c55e;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .password-box {
-      position: relative;
-    }
+        button:hover {
+            background: #16a34a;
+        }
 
-    .toggle {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-    }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background: black;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-
-    a {
-      display: block;
-      text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-  </style>
+        .link a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="box">
+    <h2>Register</h2>
 
-  <h2>Register</h2>
+    <form method="POST">
 
-  <form method="POST">
+        <input type="text" name="username" placeholder="Username" required>
 
-    <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
 
-    <input type="text" name="phone" placeholder="Phone Number" required>
+        <input type="text" name="phone" placeholder="Phone" required>
 
-    <input type="text" name="location" placeholder="Location (City/Area)" required>
+        <input type="text" name="location" placeholder="Location" required>
 
-    <div class="password-box">
-      <input type="password" id="regPass" name="password" placeholder="Password" required>
-      <span class="toggle" onclick="togglePass()">👁️</span>
+        <input type="email" name="email" placeholder="Email Address" required>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <div class="link">
+        Already have an account? <a href="/login">Login</a>
     </div>
-
-    <button type="submit">Register</button>
-  </form>
-
-  <a href="/login">Already have an account? Login</a>
-
 </div>
-
-<script>
-function togglePass() {
-  let p = document.getElementById("regPass");
-  p.type = (p.type === "password") ? "text" : "password";
-}
-</script>
 
 </body>
 </html>
