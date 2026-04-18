@@ -1,3 +1,5 @@
+import json
+import os
 from flask import Flask, render_template, request, redirect, url_for, session
 import random
 import smtplib
@@ -6,9 +8,30 @@ app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
 # ======================
-# 🔐 USERS DATABASE
+# 📁 DATA FILE (PERMANENT STORAGE)
 # ======================
-users = {}
+DATA_FILE = "users.json"
+
+# ======================
+# 🔐 LOAD USERS FROM FILE
+# ======================
+def load_users():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+# ======================
+# 💾 SAVE USERS TO FILE
+# ======================
+def save_users():
+    with open(DATA_FILE, "w") as f:
+        json.dump(users, f)
+
+# ======================
+# 🔐 USERS DATABASE (NOW PERMANENT)
+# ======================
+users = load_users()
 
 # ======================
 # 📧 EMAIL CONFIG
@@ -53,10 +76,7 @@ def login():
 
         if username in users and users[username]["password"] == password:
             session["user"] = username
-
-            # ✅ FIXED: direct dashboard (no message bug)
             return redirect(url_for("dashboard"))
-
         else:
             return render_template(
                 "message.html",
@@ -123,6 +143,7 @@ def verify_otp():
                 "email": data["email"]
             }
 
+            save_users()
             session.pop("temp_user", None)
 
             return render_template(
