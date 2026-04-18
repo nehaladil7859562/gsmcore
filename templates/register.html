@@ -1,136 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
+import json
+import os
+from flask import Flask, render_template, request, redirect, url_for, session
+import random
+import smtplib
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+app = Flask(__name__)
+app.secret_key = "supersecretkey"
+
+# ======================
+# 📁 DATA FILE
+# ======================
+DATA_FILE = "users.json"
+
+# ======================
+# 🔐 LOAD USERS
+# ======================
+def load_users():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+# ======================
+# 💾 SAVE USERS
+# ======================
+def save_users():
+    with open(DATA_FILE, "w") as f:
+        json.dump(users, f)
+
+# ======================
+# 👥 USERS (PERMANENT)
+# ======================
+users = load_users()
+
+# ======================
+# 📧 EMAIL CONFIG
+# ======================
+EMAIL = "nehaladil7859562@gmail.com"
+PASSWORD = "qwimncypadqpnjlb"
+
+# ======================
+# 📩 SEND OTP
+# ======================
+def send_otp(to_email, otp):
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(EMAIL, PASSWORD)
+
+        message = f"Subject: OTP Verification\n\nYour OTP is: {otp}"
+
+        server.sendmail(EMAIL, to_email, message)
+        server.quit()
+
+        print("OTP sent successfully")
+
+    except Exception as e:
+        print("Error sending email:", e)
+
+# ======================
+# 🏠 HOME
+# ======================
+@app.route("/")
+def home():
+    return redirect(url_for("login"))
+
+# ======================
+# 🔑 LOGIN
+# ======================
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username in users and users[username]["password"] == password:
+            session["user"] = username
+            return redirect(url_for("dashboard"))
+        else:
+            return render_template(
+                "message.html",
+                msg="❌ Invalid username or password",
+                type="error"
+            )
+
+    return render_template("login.html")
+
+# ======================
+# 📝 REGISTER
+# ======================
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        phone = request.form["phone"]
+        location = request.form["location"]
+        email = request.form["email"]
+
+        # ❌ username check
+        if username in users:
+            return render_template(
+                "message.html",
+                msg="❌ Username already exists",
+                type="error"
+            )
+
+        # ❌ email check
+        for user in users.values():
+            if user["email"] == email:
+                return render_template(
+                    "message.html",
+                    msg="❌ Email already registered",
+                    type="error"
+                )
+
+        otp = str(random.randint(1000, 9999))
+        send_otp(email, otp)
+
+        session["temp_user"] = {
+            "username": username,
+            "password": password,
+            "phone": phone,
+            "location": location,
+            "email": email,
+            "otp": otp
         }
 
-        .box {
-            background: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            width: 320px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-        }
+        return redirect(url_for("verify_otp"))
 
-        h2 {
-            text-align: center;
-            color: white;
-            margin-bottom: 20px;
-        }
+    return render_template("register.html")
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 6px;
-            outline: none;
-            box-sizing: border-box;
-        }
+# ======================
+# 🔐 VERIFY OTP
+# ======================
+@app.route("/verify", methods=["GET", "POST"])
+def verify_otp():
+    if "temp_user" not in session:
+        return redirect(url_for("register"))
 
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 6px;
-            background: #22c55e;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    if request.method == "POST":
+        user_otp = request.form["otp"]
+        real_otp = session["temp_user"]["otp"]
 
-        button:hover {
-            background: #16a34a;
-        }
+        if user_otp == real_otp:
+            data = session["temp_user"]
 
-        .link {
-            text-align: center;
-            margin-top: 10px;
-            color: #cbd5e1;
-            font-size: 14px;
-        }
+            users[data["username"]] = {
+                "password": data["password"],
+                "phone": data["phone"],
+                "location": data["location"],
+                "email": data["email"]
+            }
 
-        .link a {
-            color: #38bdf8;
-            text-decoration: none;
-        }
+            save_users()
+            session.pop("temp_user", None)
 
-        /* 🔐 PASSWORD BOX FIX */
-        .password-box {
-            position: relative;
-            width: 100%;
-        }
+            return render_template(
+                "message.html",
+                msg="✅ OTP Verified Successfully",
+                type="success"
+            )
+        else:
+            return render_template(
+                "message.html",
+                msg="❌ Invalid OTP",
+                type="error"
+            )
 
-        .password-box input {
-            padding-right: 40px;
-        }
+    return render_template("verify.html")
 
-        .password-box .toggle {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 18px;
-            user-select: none;
-        }
-    </style>
-</head>
+# ======================
+# 📊 DASHBOARD
+# ======================
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        return redirect(url_for("login"))
 
-<body>
+    user = session["user"]
+    data = users[user]
 
-<div class="box">
-    <h2>Register</h2>
+    return render_template("dashboard.html", user=user, data=data)
 
-    <form method="POST">
+# ======================
+# 🚪 LOGOUT
+# ======================
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
-        <input type="text" name="username" placeholder="Username" required>
-
-        <!-- 🔐 PASSWORD FIELD (FIXED) -->
-        <div class="password-box">
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <span class="toggle" onclick="togglePassword()">👁️</span>
-        </div>
-
-        <input type="text" name="phone" placeholder="Phone" required>
-
-        <input type="text" name="location" placeholder="Location" required>
-
-        <input type="email" name="email" placeholder="Email Address" required>
-
-        <button type="submit">Register</button>
-
-    </form>
-
-    <div class="link">
-        Already have an account? <a href="/login">Login</a>
-    </div>
-</div>
-
-<!-- ⚙️ PASSWORD TOGGLE SCRIPT -->
-<script>
-function togglePassword() {
-    var pass = document.getElementById("password");
-
-    if (pass.type === "password") {
-        pass.type = "text";
-    } else {
-        pass.type = "password";
-    }
-}
-</script>
-
-</body>
-</html>
+# ======================
+# 🚀 RUN APP
+# ======================
+if __name__ == "__main__":
+    app.run(debug=True)
