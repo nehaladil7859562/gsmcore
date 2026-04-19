@@ -11,29 +11,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #f2f2f2;
+      background: #0f172a;
     }
 
     .box {
       width: 340px;
-      background: white;
+      background: #1e293b;
       padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      color: white;
     }
 
     h2 {
-      text-align: left;
-      margin-bottom: 15px;
+      text-align: center;
     }
 
     input {
       width: 100%;
       padding: 10px;
       margin: 8px 0;
-      border: 1px solid #ccc;
       border-radius: 6px;
-      box-sizing: border-box;
+      border: none;
     }
 
     .password-box {
@@ -51,23 +50,24 @@
     button {
       width: 100%;
       padding: 10px;
-      background: black;
-      color: white;
+      background: #22c55e;
       border: none;
+      color: white;
       border-radius: 6px;
-      margin-top: 10px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     button:hover {
-      background: #222;
+      background: #16a34a;
     }
 
     a {
       display: block;
       text-align: center;
       margin-top: 10px;
-      font-size: 14px;
+      color: #ccc;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -75,15 +75,13 @@
 <body>
 
 <div class="box">
-
   <h2>Login</h2>
 
   <form method="POST">
-
     <input type="text" name="username" placeholder="Username" required>
 
     <div class="password-box">
-      <input type="password" id="loginPass" name="password" placeholder="Password" required>
+      <input type="password" id="pass" name="password" placeholder="Password" required>
       <span class="toggle" onclick="togglePass()">👁️</span>
     </div>
 
@@ -91,12 +89,11 @@
   </form>
 
   <a href="/register">Don't have an account? Register</a>
-
 </div>
 
 <script>
 function togglePass() {
-  let p = document.getElementById("loginPass");
+  let p = document.getElementById("pass");
   p.type = (p.type === "password") ? "text" : "password";
 }
 </script>

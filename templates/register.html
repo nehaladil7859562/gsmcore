@@ -1,75 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Register</title>
+  <title>Register</title>
 
-    <style>
-        body {
-            font-family: Arial;
-            background: #0f172a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f172a;
+    }
 
-        .box {
-            background: #1e293b;
-            padding: 25px;
-            border-radius: 10px;
-            width: 300px;
-        }
+    .box {
+      width: 350px;
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 12px;
+      color: white;
+    }
 
-        h2 {
-            color: white;
-            text-align: center;
-        }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 5px;
-        }
+    .password-box {
+      position: relative;
+    }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #22c55e;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
 
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            color: #38bdf8;
-        }
-    </style>
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #22c55e;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="box">
-    <h2>Register</h2>
+  <h2>Register</h2>
 
-    <form method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="text" name="phone" placeholder="Phone" required>
-        <input type="text" name="location" placeholder="Location" required>
-        <input type="email" name="email" placeholder="Email" required>
+  <form method="POST">
+    <input type="text" name="username" placeholder="Username" required>
 
-        <button type="submit">Register</button>
-    </form>
+    <div class="password-box">
+      <input type="password" id="pass" name="password" placeholder="Password" required>
+      <span class="toggle" onclick="togglePass()">👁️</span>
+    </div>
 
-    <a href="/login">Already have an account? Login</a>
+    <input type="text" name="phone" placeholder="Phone" required>
+    <input type="text" name="location" placeholder="Location" required>
+    <input type="email" name="email" placeholder="Email" required>
+
+    <button type="submit">Register</button>
+  </form>
 </div>
+
+<script>
+function togglePass() {
+  let p = document.getElementById("pass");
+  p.type = (p.type === "password") ? "text" : "password";
+}
+</script>
 
 </body>
 </html>
